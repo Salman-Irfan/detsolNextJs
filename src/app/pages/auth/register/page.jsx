@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -14,42 +14,40 @@ const Register = () => {
         password: ''
     });
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-
-    // hiding register route, if user already logged in
+    const [showPassword, setShowPassword] = useState(false);
+    // if user has login token, redirect to home page
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         if (storedToken) {
-            // Redirect to another page if the token exists
             router.push('/');
         }
     }, [router]);
-
-    // setting up form data
+    // setting form data
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-
-    // making api call - code structre can be improved by making a separate folder for api services
+    // making api call, code structure can be more improved by making a separate folder of api services 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(`${BASE_URL}/register`, formData);
 
             if (response.data) {
-                // Redirect to the login page upon successful registration
                 setShowSuccessMessage(true);
-                // Hide the success message after 3 seconds
                 setTimeout(() => {
                     setShowSuccessMessage(false);
                 }, 1000);
                 setTimeout(() => {
                     router.push('/pages/auth/login');
-                }, 1500)
-
+                }, 1500);
             }
         } catch (error) {
-            alert (error.response.data.errors[0].msg)
+            alert(error.response.data.errors[0].msg);
         }
+    };
+    // show / hide password
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
 
     return (
@@ -85,13 +83,22 @@ const Register = () => {
                         />
                     </div>
                     <div>
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Your Password"
-                            className="w-full rounded-md px-4 py-2 bg-gray-800 text-white"
-                            onChange={handleInputChange}
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                placeholder="Your Password"
+                                className="w-full rounded-md px-4 py-2 bg-gray-800 text-white"
+                                onChange={handleInputChange}
+                            />
+                            <button
+                                type="button"
+                                onClick={togglePasswordVisibility}
+                                className="absolute top-3 right-3 text-gray-400"
+                            >
+                                {showPassword ? "Hide" : "Show"}
+                            </button>
+                        </div>
                     </div>
 
                     <button
@@ -102,12 +109,11 @@ const Register = () => {
                     </button>
                 </form>
                 {showSuccessMessage && (
-                    <div >
+                    <div>
                         <p className="text-white text-center mt-4 bg-green-500 p-2 rounded">
                             User registered successfully!
                         </p>
                         <p className="text-red text-center mt-4 p-2 rounded">Redirecting to Login Page</p>
-
                     </div>
                 )}
             </div>
