@@ -7,7 +7,7 @@ import BASE_URL from '@/app/constants/baseUrl/baseUrl';
 const AddCarForm = () => {
     const router = useRouter();
     
-    const token =  localStorage.getItem('token');
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     
     useEffect(() => {
         if (!token) {
