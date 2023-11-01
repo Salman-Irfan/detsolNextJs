@@ -6,6 +6,7 @@ import BASE_URL from '@/app/constants/baseUrl/baseUrl';
 
 const Register = () => {
     const router = useRouter();
+    // defining state variables
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -14,6 +15,7 @@ const Register = () => {
     });
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
+    // hiding register route, if user already logged in
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         if (storedToken) {
@@ -22,13 +24,14 @@ const Register = () => {
         }
     }, [router]);
 
+    // setting up form data
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    // making api call - code structre can be improved by making a separate folder for api services
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-
         try {
             const response = await axios.post(`${BASE_URL}/register`, formData);
 
@@ -45,7 +48,6 @@ const Register = () => {
 
             }
         } catch (error) {
-            console.error('Error:', error);
             alert (error.response.data.errors[0].msg)
         }
     };

@@ -6,10 +6,12 @@ import BASE_URL from '@/app/constants/baseUrl/baseUrl';
 
 const Login = () => {
     const router = useRouter();
+    // defining state for email and password
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
+    // if user already logged in, hide this route
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         if (storedToken) {
@@ -17,10 +19,11 @@ const Login = () => {
             router.push('/');
         }
     }, [router]);
+    // setting form data
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-
+    // api request - can be imporved by defining a separate for api services
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {

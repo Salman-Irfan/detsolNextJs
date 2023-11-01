@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 const Navbar = () => {
+
     const [token, setToken] = useState('');
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         setToken(storedToken || '');
     }, []);
-
+    // removing token from local storage
     const handleLogout = () => {
         localStorage.removeItem('token');
         setToken('');

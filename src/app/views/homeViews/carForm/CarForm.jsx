@@ -6,15 +6,16 @@ import BASE_URL from '@/app/constants/baseUrl/baseUrl';
 
 const AddCarForm = () => {
     const router = useRouter();
-    
+    // fetching token from local storage
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     
+    // if not logged in, protect this route
     useEffect(() => {
         if (!token) {
             router.push('/pages/auth/login');
         }
     }, [router, token]);
-    
+    // state variables
     const [notification, setNotification] = useState(null);
     const [carData, setCarData] = useState({
         model: '',
@@ -25,6 +26,7 @@ const AddCarForm = () => {
         carImages: null,
     });
 
+    // setting car form data
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCarData({ ...carData, [name]: value });
@@ -34,6 +36,7 @@ const AddCarForm = () => {
         setCarData({ ...carData, carImages: e.target.files[0] });
     };
 
+    // clear the form after successful submission
     const clearForm = () => {
         setCarData({
             model: '',
@@ -45,6 +48,7 @@ const AddCarForm = () => {
         });
     };
 
+    // showing toast notification
     const showToast = (message) => {
         setNotification(message);
         setTimeout(() => {
@@ -52,6 +56,7 @@ const AddCarForm = () => {
         }, 1000);
     };
 
+    // api call - code structure can be improved by making a spearte folder for api services
     const handleSubmit = async (e) => {
         e.preventDefault();
 
