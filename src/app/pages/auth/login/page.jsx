@@ -39,7 +39,7 @@ const Login = () => {
             }
             // Handle the response or perform additional actions as needed
         } catch (error) {
-            console.error('Error:', error);
+            alert(error.response.data.error)
         }
     };
 
