@@ -6,11 +6,12 @@ const postApiServiceWithFileAndHeaders = async (formData, endPoint, headers) => 
         const response = await axios.post(`${BASE_URL}${endPoint}`, formData, {
             headers: {...headers}
         })
-        console.log(formData)
         // console.log(response.data)
         return response.data
     } catch (error) {
-        return (error)
+        console.log(error)
+        alert (error.response.data.errors[0].msg)
+        return (error.response.data.errors[0].msg)
     }
 }
 

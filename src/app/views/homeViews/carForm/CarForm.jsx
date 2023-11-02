@@ -10,7 +10,7 @@ const AddCarForm = () => {
     const router = useRouter();
     // fetching token from local storage
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    
+
     // if not logged in, protect this route
     useEffect(() => {
         if (!token) {
@@ -23,7 +23,7 @@ const AddCarForm = () => {
         model: '',
         price: '',
         phoneNumber: '',
-        city: '', 
+        city: '',
         noOfCopies: '',
         carImages: null,
     });
@@ -83,9 +83,10 @@ const AddCarForm = () => {
             //     },
             // });
             const response = await postApiServiceWithFileAndHeaders(formData, API_END_POINTS.ADD_CAR, apiHeaders)
-
-            clearForm();
-            showToast('Car successfully added!');
+            if (response.model) {
+                clearForm();
+                showToast('Car successfully added!');
+            }
         } catch (error) {
             showToast('Error adding car. Please try again.');
             alert(error.response.data.errors[0].msg);
