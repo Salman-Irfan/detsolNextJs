@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from "next/navigation";
 import BASE_URL from '@/app/constants/baseUrl/baseUrl';
+import postApiService from '@/app/services/apiServices/postApiService';
+import API_END_POINTS from '@/app/constants/apiEndPoints/apiEndPoints';
 
 const Login = () => {
     const router = useRouter();
@@ -27,16 +29,17 @@ const Login = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${BASE_URL}/login`, formData);
-            if (response.data.authtoken) {
-                localStorage.setItem('token', response.data.authtoken);
+            // const response = await axios.post(`${BASE_URL}/login`, formData);
+            const response = await postApiService(formData, API_END_POINTS.LOGIN_USER)
+            if (response.authtoken) {
+                localStorage.setItem('token', response.authtoken);
                 setTimeout(() => {
                     window.location.reload();
                 }, 100)
                 router.push('/');
             }
         } catch (error) {
-            alert(error.response.data.error);
+            alert(error.response.error);
         }
     };
     // show / hide password
