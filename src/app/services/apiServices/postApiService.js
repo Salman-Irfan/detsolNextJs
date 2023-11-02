@@ -16,5 +16,4 @@ const postApiService = async (formData, endPoint) => {
         }
     }
 }
-
 export default postApiService

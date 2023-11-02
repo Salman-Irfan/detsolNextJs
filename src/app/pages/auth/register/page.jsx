@@ -32,9 +32,6 @@ const Register = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            // when i call my api call directly in the component, then error messages are perfectly working.
-            // but when calling my api call from api services, then error messages are not working properly on the console too, 
-            // first they will printed on console, then i can pass in allert box
 
             // const response = await axios.post(`${BASE_URL}/register`, formData);
             const response = await postApiService(formData, API_END_POINTS.REGISTER_USER)
