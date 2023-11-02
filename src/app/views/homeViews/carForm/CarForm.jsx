@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import BASE_URL from '@/app/constants/baseUrl/baseUrl';
+import postApiServiceWithFileAndHeaders from '@/app/services/apiServices/postApiServiceWithFileAndHeaders';
+import API_END_POINTS from '@/app/constants/apiEndPoints/apiEndPoints';
 
 const AddCarForm = () => {
     const router = useRouter();
@@ -69,13 +71,19 @@ const AddCarForm = () => {
         formData.append('carImages', carData.carImages);
 
         try {
-            
-            const response = await axios.post(`${BASE_URL}/cars`, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            const apiHeaders = {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
+            }
+
+            // const response = await axios.post(`${BASE_URL}/cars`, formData, {
+            //     headers: {
+            //         Authorization: `Bearer ${token}`,
+            //         'Content-Type': 'multipart/form-data',
+            //     },
+            // });
+            const response = await postApiServiceWithFileAndHeaders(formData, API_END_POINTS.ADD_CAR, apiHeaders)
+
             clearForm();
             showToast('Car successfully added!');
         } catch (error) {

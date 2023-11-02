@@ -1,4 +1,3 @@
-import API_END_POINTS from "@/app/constants/apiEndPoints/apiEndPoints";
 import BASE_URL from "@/app/constants/baseUrl/baseUrl";
 import axios from "axios";
 
@@ -8,7 +7,7 @@ const postApiService = async (formData, endPoint) => {
         console.log(response.data)
         return response.data
     } catch (error) {
-        console.log(error)
+        return (error)
     }
 }
 
