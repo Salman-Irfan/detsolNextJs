@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import BASE_URL from '@/app/constants/baseUrl/baseUrl';
+import postApiService from '@/app/services/apiServices/postApiService';
+import API_END_POINTS from '@/app/constants/apiEndPoints/apiEndPoints';
 
 const Register = () => {
     const router = useRouter();
@@ -30,9 +32,10 @@ const Register = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${BASE_URL}/register`, formData);
+            // const response = await axios.post(`${BASE_URL}/register`, formData);
+            const response = await postApiService(formData, API_END_POINTS.REGISTER_USER)
 
-            if (response.data) {
+            if (response.message) {
                 setShowSuccessMessage(true);
                 setTimeout(() => {
                     setShowSuccessMessage(false);
